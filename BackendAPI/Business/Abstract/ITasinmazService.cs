@@ -20,5 +20,6 @@ namespace BackendAPI.Business.Abstract
         Task<Tasinmaz> CreateTasinmazAsync(Tasinmaz tasinmaz);
         Task UpdateTasinmazAsync(Tasinmaz tasinmaz);
         Task DeleteTasinmazAsync(int id);
+        Task<bool> DeleteTasinmazAsync(List<int> ids); // Liste şeklinde silmek için
     }
 }

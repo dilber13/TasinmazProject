@@ -4,24 +4,24 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BackendAPI.Business.Abstract;
+using BackendAPI.DataAccess;
 using BackendAPI.DataAccess.Abstract;
 using BackendAPI.Entities;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace BackendAPI.Business.Concrete
 {
 
     public class TasinmazService : ITasinmazService
     {
-
-        /*
-         TasinmazService sınıfı, Tasinmaz nesneleriyle ilgili işlemleri gerçekleştirmek için tasarlanmıştır.
-         Bu sınıf ITasinmazService interface'ini uygular.
-         IRepository<Tasinmaz> interface'ini uygulayan Repository sınıfını kullanarak veritabanı işlemlerini gerçekleştirir.
-        */
+        private readonly AppDbContext _dbContext;
         private readonly IRepository<Tasinmaz> _repository;
 
-        public TasinmazService(IRepository<Tasinmaz> repository)
+        //  İki constructor yerine TEK BİR constructor kullanıyoruz!
+        public TasinmazService(AppDbContext dbContext, IRepository<Tasinmaz> repository)
         {
+            _dbContext = dbContext;
             _repository = repository;
         }
 
@@ -47,7 +47,37 @@ namespace BackendAPI.Business.Concrete
 
         public async Task DeleteTasinmazAsync(int id)
         {
-            await _repository.DeleteAsync(id);
+            var entity = await _dbContext.Tasinmazlar.FindAsync(id);
+
+            if (entity == null)
+            {
+                throw new KeyNotFoundException("Belirtilen taşınmaz bulunamadı.");
+            }
+
+            _dbContext.Tasinmazlar.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteTasinmazAsync(List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return false;
+            }
+
+            var entities = await _dbContext.Tasinmazlar
+                                           .Where(t => ids.Contains(t.Id))
+                                           .ToListAsync();
+
+            if (!entities.Any())
+            {
+                return false;
+            }
+
+            _dbContext.Tasinmazlar.RemoveRange(entities);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
+
 }

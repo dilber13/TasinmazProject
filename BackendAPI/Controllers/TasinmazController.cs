@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackendAPI.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
+
 
 namespace BackendAPI.Controllers
 {
@@ -67,24 +69,75 @@ namespace BackendAPI.Controllers
         }
 
         // PUT: api/Tasinmaz/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTasinmaz(int id, Tasinmaz tasinmaz)
-        {
-            if (id != tasinmaz.Id)
-            {
-                return BadRequest();
-            }
 
-            await _tasinmazService.UpdateTasinmazAsync(tasinmaz);
-            return NoContent();
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTasinmaz(int id, [FromBody] Tasinmaz tasinmaz)
+        {
+            try
+            {
+                if (tasinmaz == null)
+                {
+                    return BadRequest("Geçersiz taşınmaz verisi.");
+                }
+
+                if (id != tasinmaz.Id)
+                {
+                    return BadRequest("ID uyuşmazlığı.");
+                }
+
+                await _tasinmazService.UpdateTasinmazAsync(tasinmaz);
+
+                return NoContent(); // Güncelleme başarılı, içerik yok.
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine($"Update error: {ex.Message}");
+                System.Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                return StatusCode(500, $"Güncelleme sırasında hata oluştu: {ex.Message}");
+            }
         }
+
+
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateTasinmaz(int id, Tasinmaz tasinmaz)
+        //{
+        //    if (id != tasinmaz.Id)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    await _tasinmazService.UpdateTasinmazAsync(tasinmaz);
+        //    return NoContent();
+        //}
 
         // DELETE: api/Tasinmaz/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTasinmaz(int id)
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteTasinmaz([FromBody] List<int> ids)
         {
-            await _tasinmazService.DeleteTasinmazAsync(id);
-            return NoContent();
+            if (ids == null || ids.Count == 0)
+            {
+                return BadRequest("Silinecek ID listesi boş.");
+            }
+
+            bool deleted = await _tasinmazService.DeleteTasinmazAsync(ids);
+
+            if (!deleted)
+            {
+                return NotFound("Bazı veya tüm taşınmazlar bulunamadı ya da silinemedi.");
+            }
+
+            return Ok(new { message = "Seçili taşınmazlar başarıyla silindi." });
         }
+
+
+
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteTasinmaz(int id)
+        //{
+        //    await _tasinmazService.DeleteTasinmazAsync(id);
+        //    return NoContent();
+        //}
     }
 }

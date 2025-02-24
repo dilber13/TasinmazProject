@@ -4,6 +4,7 @@ using BackendAPI.Business.Concrete;
 using BackendAPI.DataAccess;
 using BackendAPI.DataAccess.Abstract;
 using BackendAPI.DataAccess.Concrete;
+using BackendAPI.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,6 +23,7 @@ namespace BackendAPI
 {
     public class Startup
     {
+      
 
         public Startup(IConfiguration configuration)
         {
@@ -33,6 +35,9 @@ namespace BackendAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<ITasinmazService, TasinmazService>();
+            services.AddScoped<IRepository<Tasinmaz>, Repository<Tasinmaz>>();
             // Controller desteğini ekler
             services.AddControllers();
             services.AddControllersWithViews()
