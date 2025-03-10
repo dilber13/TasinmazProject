@@ -9,11 +9,12 @@ namespace BackendAPI.Business.Abstract
 {
     public interface IIlceService
     {
+        Task<IEnumerable<Ilce>> GetByIlIdAsync(int ilId);
 
         Task<IEnumerable<Ilce>> GetAllAsync(params Expression<Func<Ilce, object>>[] includes);
         Task<Ilce> GetByIdAsync(int id, params Expression<Func<Ilce, object>>[] includes);
         Task<Ilce> CreateIlceAsync(Ilce ilce);
-        Task UpdateIlceAsync(Ilce ilce);
-        Task DeleteIlceAsync(int id);
+        Task UpdateeIlceAsync(Ilce ilce);
+        Task DeleteeIlceAsync(int id);
     }
 }

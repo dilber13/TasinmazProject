@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace BackendAPI.Entities
@@ -11,8 +11,10 @@ namespace BackendAPI.Entities
         public string Ad { get; set; }
         public int IlceId { get; set; }
 
+        [ForeignKey("IlceId")]
+
         [JsonIgnore] // Sonsuz döngüyü önlemek için
-        public Ilce? Ilce { get; set; }
+        public virtual Ilce? Ilce { get; set; }
 
         public ICollection<Tasinmaz> Tasinmazlar { get; set; } = new List<Tasinmaz>();
     }

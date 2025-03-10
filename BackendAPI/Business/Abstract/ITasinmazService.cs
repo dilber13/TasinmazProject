@@ -18,8 +18,17 @@ namespace BackendAPI.Business.Abstract
         Task<IEnumerable<Tasinmaz>> GetAllAsync(params Expression<Func<Tasinmaz, object>>[] includes);
         Task<Tasinmaz> GetByIdAsync(int id, params Expression<Func<Tasinmaz, object>>[] includes);
         Task<Tasinmaz> CreateTasinmazAsync(Tasinmaz tasinmaz);
-        Task UpdateTasinmazAsync(Tasinmaz tasinmaz);
-        Task DeleteTasinmazAsync(int id);
-        Task<bool> DeleteTasinmazAsync(List<int> ids); // Liste şeklinde silmek için
+        //Task UpdateTasinmazAsync(Tasinmaz tasinmaz);
+        //Task DeleteTasinmazAsync(int id);
+        //Task<bool> DeleteTasinmazAsync(List<int> ids); // Liste şeklinde silmek için
+
+
+
+
+        Task<List<Tasinmaz>> GetTasinmazByUserIdAsync(int userId);
+
+        Task<Tasinmaz> UpdateeTasinmazAsync(Tasinmaz tasinmaz, int userId);
+
+        Task<bool> DeleteeTasinmazAsync(List<int> ids, int userId);
     }
 }

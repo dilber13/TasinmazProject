@@ -15,6 +15,10 @@ namespace BackendAPI.Entities
         public string Adres { get; set; }
 
         [JsonIgnore] // Sonsuz döngüyü önlemek için
-        public Mahalle? Mahalle { get; set; }
+        public Mahalle Mahalle { get; set; }
+
+        public int userId { get; set; }
+
+        public User User { get; set; }
     }
 }

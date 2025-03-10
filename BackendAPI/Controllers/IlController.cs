@@ -50,7 +50,7 @@ namespace BackendAPI.Controllers
                 return BadRequest();
             }
 
-            await _ilService.UpdateIlAsync(il);
+            await _ilService.UpdateeIlAsync(il);
             return NoContent();
         }
 

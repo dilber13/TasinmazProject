@@ -9,10 +9,12 @@ namespace BackendAPI.Business.Abstract
 {
     public interface IMahalleService
     {
+        Task<IEnumerable<Mahalle>> GetAllMahalleByIlceIdAsync(int ilceId);
+
         Task<IEnumerable<Mahalle>> GetAllAsync(params Expression<Func<Mahalle, object>>[] includes);
         Task<Mahalle> GetByIdAsync(int id, params Expression<Func<Mahalle, object>>[] includes);
         Task<Mahalle> CreateMahalleAsync(Mahalle mahalle);
-        Task UpdateMahalleAsync(Mahalle mahalle);
-        Task DeleteMahalleAsync(int id);
+        Task UpdateeMahalleAsync(Mahalle mahalle);
+        Task DeleteeMahalleAsync(int id);
     }
 }

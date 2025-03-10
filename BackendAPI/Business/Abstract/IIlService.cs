@@ -12,8 +12,8 @@ namespace BackendAPI.Business.Abstract
         Task<IEnumerable<Il>> GetAllAsync(params Expression<Func<Il, object>>[] includes);
         Task<Il> GetByIdAsync(int id, params Expression<Func<Il, object>>[] includes);
         Task<Il> CreateIlAsync(Il il);
-        Task UpdateIlAsync(Il il);
-        Task DeleteIlAsync(int id);
+        Task UpdateeIlAsync(Il il);
+        Task DeleteeIlAsync(int id);
     }
 
 }

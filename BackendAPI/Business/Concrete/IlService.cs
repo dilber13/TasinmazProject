@@ -1,6 +1,7 @@
 using BackendAPI.Business.Abstract;
 using BackendAPI.DataAccess.Abstract;
 using BackendAPI.Entities;
+using DataAccess.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -34,14 +35,20 @@ namespace BackendAPI.Business.Concrete
             return await _repository.AddAsync(il);
         }
 
-        public async Task UpdateIlAsync(Il il)
+        public async Task UpdateeIlAsync(Il il)
         {
-            await _repository.UpdateAsync(il);
+            await _repository.UpdateeAsync(il);
         }
 
-        public async Task DeleteIlAsync(int id)
+        public async Task DeleteeIlAsync(int id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.DeleteeAsync(id);
         }
+
+        public async Task<IEnumerable<Ilce>> GetByIlIdAsync(int ilId, IlceRepository ýlceRepository)
+        {
+            return await ýlceRepository.GetAllAsync(i => i.IlId == ilId, i => i.Il, i => i.Mahalleler);
+        }
+
     }
 }
